@@ -39,8 +39,8 @@ then do a simple invariant mass counting to get the number of J/psi correspondin
 
 ```{.cxx}
 int numberOfEventsToUse=100000; // use 0 for all
-AliMuonCompactQuickAccEff q(numberOfEventsToUse);
-q.ComputeEvolutionFromManuStatus("compacttreemaker.root","runlist.lhc15pp.txt","lhc15pp.allowing.monocathodes.root","manustatus.lhc15pp.dat","local:///alice/data/2015/OCDB",0);
+AliMuonCompactQuickAccEff q("compacttreemaker.root",numberOfEventsToUse);
+q.ComputeEvolutionFromManuStatus("runlist.lhc15pp.txt","lhc15pp.allowing.monocathodes.root","manustatus.lhc15pp.dat","local:///alice/data/2015/OCDB",0);
 ```
 
 The `AliMuonCompactQuickAccEffChecker` has been used to validate the method using a full simulation (aka regular one)

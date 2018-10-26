@@ -1,13 +1,14 @@
 #ifndef ALIMUONCOMPACTQUICKACCEFF_H
 #define ALIMUONCOMPACTQUICKACCEFF_H
 
-#include "Rtypes.h"
-#include <vector>
 #include <map>
+#include <vector>
+#include "Rtypes.h"
 
-class AliMuonCompactCluster;
-class AliMuonCompactEvent;
-class AliMuonCompactTrack;
+struct AliMuonCompactCluster;
+struct AliMuonCompactEvent;
+struct AliMuonCompactTrack;
+class AliMuonCompactManuStatus;
 class TH1;
 class TTree;
 
@@ -24,47 +25,42 @@ class TTree;
 
 */
 
-
 class AliMuonCompactQuickAccEff
 {
-    public:
+ public:
+  AliMuonCompactQuickAccEff(const char* compactEventFile, ULong64_t maxevents = 0,
+                            bool rejectMonoCathodeClusters = false);
 
-        AliMuonCompactQuickAccEff(int maxevents=0, bool rejectMonoCathodeClusters=false);
+  void ComputeEvolution(std::vector<int>& vrunlist, const std::map<int, AliMuonCompactManuStatus>& manuStatusForRuns,
+                        const char* outputfile);
 
-        void ComputeEvolution(const std::vector<AliMuonCompactEvent>& events, 
-                std::vector<int>& vrunlist,
-                const std::map<int,std::vector<UInt_t> >& manuStatusForRuns,
-                const char* outputfile);
+  Bool_t ValidateCluster(const AliMuonCompactCluster& cl, const AliMuonCompactManuStatus& manuStatus, UInt_t causeMask);
 
-        Bool_t ValidateCluster(const AliMuonCompactCluster& cl,
-                const std::vector<UInt_t>& manuStatus,
-                UInt_t causeMask);
+  Bool_t ValidateTrack(const AliMuonCompactTrack& track, const AliMuonCompactManuStatus& manuStatus, UInt_t causeMask);
 
+  Int_t ComputeNofPairs(const AliMuonCompactManuStatus& manustatus, UInt_t causeMask);
 
-        Bool_t ValidateTrack(const AliMuonCompactTrack& track,
-                const std::vector<UInt_t>& manuStatus,
-                UInt_t causeMask);
+  void ComputeEvolutionFromManuStatus(const char* treeFile, const char* runList, const char* outputfile,
+                                      const char* manustatusfile, const char* ocdbPath = "raw://", Int_t runNumber = 0);
 
-        TH1* ComputeMinv(const std::vector<AliMuonCompactEvent>& events,
-                const std::vector<UInt_t>& manustatus,
-                UInt_t causeMask,
-                Int_t& npairs);
+  void ComputeLoss(const AliMuonCompactManuStatus& ref, const AliMuonCompactManuStatus& ms, UInt_t refCauseMask = 63);
 
-        void ComputeEvolutionFromManuStatus(const char* treeFile,
-                const char* runList,
-                const char* outputfile,
-                const char* manustatusfile,
-                const char* ocdbPath="raw://",
-                Int_t runNumber=0);
-        
-        UInt_t GetEvents(TTree* tree,std::vector<AliMuonCompactEvent>& events, Bool_t verbose=kFALSE);
+  void PrintEvents(int nmax = 0);
 
-        UInt_t GetEvents(const char* treeFile, std::vector<AliMuonCompactEvent>& events, Bool_t verbose=kFALSE);
+  struct RefValues {
+    int nJpsi;
+    int nInputJpsi;
+    int nEvents;
+    double AccEff;
+    double AccEffErr;
+  };
 
-    private:
-        ULong64_t fMaxEvents;
-        bool fRejectMonoCathodeClusters;
+  RefValues GetRef();
+
+ private:
+  ULong64_t fMaxEvents;
+  bool fRejectMonoCathodeClusters;
+  std::vector<AliMuonCompactEvent> mEvents;
 };
 
 #endif
-

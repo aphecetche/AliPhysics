@@ -32,9 +32,9 @@
 #pragma link C++ class AliMuonOCDBSnapshotGenerator+;
 
 #pragma link C++ class AliMuonCompactMapping+;
-#pragma link C++ class AliMuonCompactEvent+;
-#pragma link C++ class AliMuonCompactTrack+;
-#pragma link C++ class AliMuonCompactCluster+;
+#pragma link C++ struct AliMuonCompactEvent+;
+#pragma link C++ struct AliMuonCompactTrack+;
+#pragma link C++ struct AliMuonCompactCluster+;
 #pragma link C++ class AliMuonCompactTreeMaker+;
 #pragma link C++ class AliMuonCompactManuStatus+;
 #pragma link C++ class AliMuonCompactQuickAccEff+;

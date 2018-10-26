@@ -26,17 +26,6 @@
 #include <cassert>
 
 /// \ingroup compact
-namespace {
-    const Int_t kCANNOTSETUPOCDB = -1;
-    const Int_t kCANNOTGETESDTREE = -2;
-    const Int_t kCANNOTOPENESDFILE = -3; 
-    UInt_t ENCODE(Int_t a16, Int_t b16)
-    {
-        return ( ( a16 & 0x0000FFFF ) << 16 ) | ( b16 & 0x0000FFFF );
-    }
-
-}
-
 ClassImp(AliMuonCompactTreeMaker)
 
 AliMuonCompactTreeMaker::AliMuonCompactTreeMaker(const char* ocdbPath): 
